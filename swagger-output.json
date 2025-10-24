@@ -1,0 +1,1004 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Exam",
+    "description": "API providing an interface for users to signup, login, reading, creating, changing, deleting-operations for an ecommerence-website. API uses JWT authentication."
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/search/": {
+      "post": {
+        "tags": [
+          "Search"
+        ],
+        "description": "HANDLER FOR RETURNING SPECIFIC PRODUCTS BASED ON THE SEARCH. THIS ENDPOINT HANDLES SEARCHES BRAND/CATEGORY/PRODUCT. This endpoint can be accessed by anyone.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SearchPost"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/users/": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "HANDLER FOR RETURNING ALL USERS IN DB. Needs to be logged in(ADMIN-role)",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "HANDLER FOR RETURNING A SINGLE USER BY ID. Needs to be logged in(ADMIN-role)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "HANDLER FOR CHANGING A USER BY ID. Needs to be logged in(ADMIN-role)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/UsersPut"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "HANDLER FOR CREATING A USER IN DB. This endpoint can be accessed by anyone",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/AuthRegister"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "HANDLER FOR LOGGING INTO TO APPLICATION IN DB, AND SIGN A COOKIE FOR THAT SESSION - 2 HOURS. This endpoint can be accessed by anyone",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/AuthLogin"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "HANDLER FOR LOGGING OUT OF APPLICATION IN DB, AND CLEAR COOKIE. This endpoint can be accessed by anyone",
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/cart/": {
+      "get": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "HANDLER FOR CHECKING IF CART EXSITS IN DB. Needs to be logged in(user-role or higher)",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "HANDLER FOR ADDING A SINGLE PRODUCT TO CART. Needs to be logged in(user-role or higher)",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CartPost"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/cart/checkout/now": {
+      "post": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "HANDLER FOR CHECKING OUT THE CART. Needs to be logged in(user-role or higher)",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/cart/{id}": {
+      "delete": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "HANDLER FOR DELETING THE CART. Needs to be logged in(ADMIN-role)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/category/": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "description": "HANDLER FOR RETURNING LIST OF ALL CATEGORIES IN DB. This endpoint can be accessed by anyone",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "description": "HANDLER FOR CREATING A BRAND. Needs to be logged in(ADMIN-role)",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CategoryPost"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/category/{id}": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "description": "HANDLER FOR RETURNING A SINGLE CATEGORY BY ID. This endpoint can be accessed by anyone",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Category"
+        ],
+        "description": "HANDLER FOR CHANGING A CATEGORYNAME IN DB. PROVIDE CATEGORY-ID. Needs to be logged in(ADMIN-role)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CategoryPut"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/brand/": {
+      "get": {
+        "tags": [
+          "Brand"
+        ],
+        "description": "HANDLER FOR RETURNING LIST OF ALL BRANDS IN DB",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Brand"
+        ],
+        "description": "HANDLER FOR CREATING A BRAND. Needs to be logged in and be an admin",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/BrandPost"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/brand/{id}": {
+      "get": {
+        "tags": [
+          "Brand"
+        ],
+        "description": "HANDLER FOR RETURNING A SINGLE BRAND BY ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Brand"
+        ],
+        "description": "HANDLER FOR CHANGING A BRANDNAME IN DB. PROVIDE BRAND-ID. Needs to be logged in and be an admin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/BrandPut"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/membership/": {
+      "get": {
+        "tags": [
+          "Memberships"
+        ],
+        "description": "HANDLER FOR RETURNING ALL MEMBERSHIPS IN DB. This endpoint can be accessed by anyone",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/order/": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "description": "HANDLER FOR RETURNING ORDERS FOR REQUESTED USER(CURRENT AUTHENTICATED USER BASED ON JWT). Needs to be logged in(user-role or higher)",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/order/admin/": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "description": "HANDLER FOR RETURNING ORDERS FOR REQUESTED USER(CURRENTLY LOGGED IN). Needs to be logged in(user-role or higher)",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/order/{id}": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "description": "HANDLER FOR RETURNING AN ORDER BY ID. Needs to be logged in(user-role or higher)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/order/{id}/status/": {
+      "put": {
+        "tags": [
+          "Order"
+        ],
+        "description": "HANDLER FOR CHANGING AN ORDERS STATUS(Example: Change from ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/OrderPut"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/product/": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "description": "HANDLER FOR RETURNING LIST OF ALL PRODUCTS IN DB. This endpoint can be accessed by anyone.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "description": "HANDLER FOR CREATING A PRODUCT IN DB. Needs to be logged in(ADMIN-role)",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ProductPost"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/product/{id}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "description": "HANDLER FOR RETURNING A PRODUCT BY ID. This endpoint can be accessed by anyone.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Product"
+        ],
+        "description": "HANDLER FOR CHANGING A PRODUCTS DETAILS IN DB. Needs to be logged in(ADMIN-role)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ProductPut"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "description": "HANDLER FOR SOFT-DELETING A PRODUCT IN DB. Needs to be logged in(ADMIN-role)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/product/activate/{id}": {
+      "put": {
+        "tags": [
+          "Product"
+        ],
+        "description": "HANDLER FOR ACTIVATING A PRODUCT IN DB. Needs to be logged in(ADMIN-role)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/init/": {
+      "post": {
+        "tags": [
+          "Init"
+        ],
+        "description": "INITIALIZE DATA IN THE DB. REQUIRE A DATABASE CREATED. This endpoint will populate the DB.",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/status/": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "description": "HANDLER FOR RETURNING ALL STATUSES IN DB. This endpoint can be accessed by anyone.",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/roles/": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "description": "HANDLER FOR RETURNING ROLES IN DB.",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AuthRegister": {
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string",
+          "example": "user1"
+        },
+        "userPassword": {
+          "type": "string",
+          "example": "password"
+        },
+        "email": {
+          "type": "string",
+          "example": "test@test.com"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "user"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "one"
+        },
+        "address": {
+          "type": "string",
+          "example": "online"
+        },
+        "phone": {
+          "type": "number",
+          "example": 90906510
+        }
+      },
+      "required": [
+        "userName",
+        "userPassword",
+        "email",
+        "firstName",
+        "lastName",
+        "address",
+        "phone"
+      ]
+    },
+    "AuthLogin": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string",
+          "example": "Admin"
+        },
+        "password": {
+          "type": "string",
+          "example": "P@ssword2023"
+        }
+      },
+      "required": [
+        "login",
+        "password"
+      ]
+    },
+    "CategoryPost": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "example": "A new category!"
+        }
+      },
+      "required": [
+        "category"
+      ]
+    },
+    "CategoryPut": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "example": "IPad"
+        }
+      },
+      "required": [
+        "category"
+      ]
+    },
+    "BrandPost": {
+      "type": "object",
+      "properties": {
+        "brand": {
+          "type": "string",
+          "example": "A new brand!"
+        }
+      },
+      "required": [
+        "brand"
+      ]
+    },
+    "BrandPut": {
+      "type": "object",
+      "properties": {
+        "brand": {
+          "type": "string",
+          "example": "Google"
+        }
+      },
+      "required": [
+        "brand"
+      ]
+    },
+    "CartPost": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string",
+          "example": "2"
+        }
+      },
+      "required": [
+        "productId"
+      ]
+    },
+    "OrderPut": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "2"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
+    "ProductPost": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 15
+        },
+        "name": {
+          "type": "string",
+          "example": "Samsung"
+        },
+        "imgurl": {
+          "type": "string",
+          "example": "http://www.google.com"
+        },
+        "description": {
+          "type": "string",
+          "example": "One product is created!"
+        },
+        "price": {
+          "type": "number",
+          "example": 300
+        },
+        "stock": {
+          "type": "number",
+          "example": 10
+        },
+        "brand": {
+          "type": "string",
+          "example": "MXQ"
+        },
+        "category": {
+          "type": "string",
+          "example": "A brand new phone!"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "imgurl",
+        "description",
+        "price",
+        "stock",
+        "brand",
+        "category"
+      ]
+    },
+    "ProductPut": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Samsung"
+        },
+        "imgurl": {
+          "type": "string",
+          "example": "http://www.google.com"
+        },
+        "description": {
+          "type": "string",
+          "example": "One product is created!"
+        },
+        "price": {
+          "type": "number",
+          "example": 300
+        },
+        "stock": {
+          "type": "number",
+          "example": 10
+        },
+        "brand": {
+          "type": "string",
+          "example": "MXQ"
+        },
+        "category": {
+          "type": "string",
+          "example": "A brand new phone!"
+        }
+      },
+      "required": [
+        "name",
+        "imgurl",
+        "description",
+        "price",
+        "stock",
+        "brand",
+        "category"
+      ]
+    },
+    "SearchPost": {
+      "type": "object",
+      "properties": {
+        "productName": {
+          "type": "string",
+          "example": "16"
+        },
+        "categoryName": {
+          "type": "string",
+          "example": ""
+        },
+        "brandName": {
+          "type": "string",
+          "example": "1"
+        }
+      },
+      "required": [
+        "productName",
+        "categoryName",
+        "brandName"
+      ]
+    },
+    "UsersPut": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "changed@email.com"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "newName"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "newLastName"
+        },
+        "RoleId": {
+          "type": "number",
+          "example": 2
+        }
+      },
+      "required": [
+        "email",
+        "firstName",
+        "lastName",
+        "RoleId"
+      ]
+    }
+  }
+}
